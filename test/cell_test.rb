@@ -26,6 +26,7 @@ class CellTest < Minitest::Test
 
     assert_equal @nina, @cell.place_ship(@nina)
     assert_equal false, @cell.empty?
+    assert_equal @nina, @cell.ship
   end
 
 end
