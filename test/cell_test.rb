@@ -32,12 +32,12 @@ class CellTest < Minitest::Test
   def test_fired_upon_recognizes_status_with_input
     @cell.place_ship(@nina)
 
-    assert_equal false, @nina.fired_upon?
+    assert_equal false, @cell.fired_upon?
     assert_equal 3, @cell.ship.health
     @cell.fire_upon
 
     assert_equal 2, @cell.ship.health
-    assert_equal true, @nina.fire_upon?
+    assert_equal true, @cell.fired_upon?
   end
 end
 

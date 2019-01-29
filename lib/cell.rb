@@ -9,10 +9,18 @@ class Cell
   end
 
   def empty?
-    @ship.class != Ship
+    return @ship.class != Ship
   end
 
   def place_ship(ship)
-    @ship = ship
+    return @ship = ship
+  end
+
+  def fired_upon?
+    return @ship.health != @ship.length
+  end
+
+  def fire_upon
+    return @ship.hit
   end
 end
