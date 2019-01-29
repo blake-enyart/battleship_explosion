@@ -8,6 +8,7 @@ class CellTest < Minitest::Test
 
   def setup
     @cell = Cell.new("B4")
+    @nina = Ship.new("Cruiser", 3)
   end
 
   def test_cell_exist
@@ -19,6 +20,12 @@ class CellTest < Minitest::Test
 
     assert_nil @cell.ship
     assert_equal true, @cell.empty?
+  end
+
+  def test_place_ship_fills_ship_attr_and_changes_empty_status
+
+    assert_equal @nina, @cell.place_ship(@nina)
+    assert_equal false, @cell.empty?
   end
 
 end
