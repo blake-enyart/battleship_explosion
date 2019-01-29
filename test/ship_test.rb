@@ -26,12 +26,14 @@ class ShipTest < Minitest::Test
     @ship.hit
 
     assert_equal 2, @ship.health
+    assert_equal false, @ship.sunk?
     @ship.hit
 
     assert_equal 1, @ship.health
     @ship.hit
 
     assert_equal true, @ship.sunk?
+    assert_equal 0, @ship.health
   end
 end
 
