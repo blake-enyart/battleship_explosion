@@ -29,7 +29,45 @@ class CellTest < Minitest::Test
     assert_equal @nina, @cell.ship
   end
 
+  def test_fired_upon_recognizes_status_with_input
+    @cell.place_ship(@nina)
+
+    assert_equal false, @nina.fired_upon?
+    assert_equal 3, @cell.ship.health
+    @cell.fire_upon
+
+    assert_equal 2, @cell.ship.health
+    assert_equal true, @nina.fire_upon?
+  end
 end
+
+##PRY BLOCK 3
+
+# require './lib/ship'
+# # => true
+#
+# require './lib/cell'
+# # => true
+#
+# cell = Cell.new("B4")
+# # => #<Cell:0x00007f84f0ad4720...>
+#
+# cruiser = Ship.new("Cruiser", 3)
+# # => #<Ship:0x00007f84f0891238...>
+#
+# cell.place_ship(cruiser)
+#
+# cell.fired_upon?
+# # => false
+#
+# cell.fire_upon
+#
+# cell.ship.health
+# # => 2
+#
+# cell.fired_upon?
+# # => true
+
 
 #Block 2 Pry session
 
