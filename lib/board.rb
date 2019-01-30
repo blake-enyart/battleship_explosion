@@ -12,4 +12,8 @@ class Board
   def valid_coordinate?(cell)
     @cells.keys.include?(cell)
   end
+
+  def valid_placement?(ship, placement)
+    ship.length == placement.length
+  end
 end
