@@ -9,6 +9,9 @@ class CellTest < Minitest::Test
   def setup
     @cell = Cell.new("B4")
     @nina = Ship.new("Cruiser", 3)
+
+    @cell_1 = Cell.new("B4")
+    @cell_2 = Cell.new("C3")
   end
 
   def test_cell_exist
@@ -39,7 +42,60 @@ class CellTest < Minitest::Test
     assert_equal 2, @cell.ship.health
     assert_equal true, @cell.fired_upon?
   end
+
+  def test_render_misses_empty_cell
+    @cell_1.render
+    @cell_1.fire_upon
+
+    assert_equal "M", @cell_1.render
+  end
 end
+
+##PRY BLOCK 4
+
+# cell_1 = Cell.new("B4")
+# # => #<Cell:0x00007f84f11df920...>
+#
+# cell_1.render
+# # => "."
+#
+# cell_1.fire_upon
+#
+# cell_1.render
+# # => "M"
+#
+# cell_2 = Cell.new("C3")
+# # => #<Cell:0x00007f84f0b29d10...>
+#
+# cruiser = Ship.new("Cruiser", 3)
+# # => #<Ship:0x00007f84f0ad4fb8...>
+#
+# cell_2.place_ship(cruiser)
+#
+# cell_2.render
+# # => "."
+#
+# # Indicate that we want to show a ship with the optional argument
+# cell_2.render(true)
+# # => "S"
+#
+# cell_2.fire_upon
+#
+# cell_2.render
+# # => "H"
+#
+# cruiser.sunk?
+# # => false
+#
+# cruiser.hit
+#
+# cruiser.hit
+#
+# cruiser.sunk?
+# # => true
+#
+# cell_2.render
+# # => "X"
 
 ##PRY BLOCK 3
 
