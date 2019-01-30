@@ -36,12 +36,8 @@ class Cell
       else
         "M"
       end
-    elsif show
-      if ship
+    elsif show && ship
         "S"
-      else
-        "."
-      end
     else
       "."
     end
