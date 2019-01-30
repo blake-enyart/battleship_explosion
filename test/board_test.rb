@@ -9,7 +9,7 @@ class BoardTest < Minitest::Test
   def setup
     @board = Board.new
   end
-  
+
   def test_board_exists
     board = Board.new
 
@@ -19,6 +19,11 @@ class BoardTest < Minitest::Test
 
   def test_instantiation_of_board_creates_hash
      assert_instance_of Hash, @board.cells
+  end
+
+  def test_whether_board_has_16_key_value_pairs
+
+    assert_equal 16, @board.cells.length
   end
 end
 
