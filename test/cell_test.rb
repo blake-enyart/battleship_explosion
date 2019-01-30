@@ -43,8 +43,18 @@ class CellTest < Minitest::Test
     assert_equal true, @cell.fired_upon?
   end
 
+  def test_render_period_if_not_fired_upon
+    @cell_2.place_ship(@nina)
+
+    assert_nil @cell_1.ship
+    assert_instance_of Ship, @cell_2.ship
+    assert_equal ".", @cell_1.render
+    assert_equal ".", @cell_2.render
+  end
+
   def test_render_misses_empty_cell
-    @cell_1.render
+    assert_equal ".", @cell.render
+    assert_equal ".", @cell.render(true)
     @cell_1.fire_upon
 
     assert_equal "M", @cell_1.render
@@ -52,6 +62,9 @@ class CellTest < Minitest::Test
 
   def test_render_hits_cell_with_ship
     @cell_2.place_ship(@nina)
+
+    assert_equal ".", @cell_2.render
+    assert_equal "S", @cell_2.render(true)
     @cell_2.fire_upon
 
     assert_equal "H", @cell_2.render
