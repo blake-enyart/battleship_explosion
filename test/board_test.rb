@@ -25,6 +25,16 @@ class BoardTest < Minitest::Test
     assert_instance_of Hash, @board.cells
     assert_equal 16, @board.cells.length
   end
+
+  def test_key_points_to_cell_object_in_board
+    assert_instance_of Cell, @board.cells["A1"]
+  end
+
+  def test_valid_coordinate_method
+    assert_equal true, @board.valid_coordinate("D4")
+    assert_equal false, @board.valid_coordinate("A5")
+
+  end
 end
 
 
