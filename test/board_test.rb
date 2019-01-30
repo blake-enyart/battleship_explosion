@@ -31,9 +31,8 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_coordinate_method
-    assert_equal true, @board.valid_coordinate("D4")
-    assert_equal false, @board.valid_coordinate("A5")
-
+    assert_equal true, @board.valid_coordinate?("D4")
+    assert_equal false, @board.valid_coordinate?("A5")
   end
 end
 

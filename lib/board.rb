@@ -8,4 +8,8 @@ class Board
     @cells = {}
     keys.map { |cell| @cells[cell] = Cell.new(cell)}
   end
+
+  def valid_coordinate?(cell)
+    @cells.keys.include?(cell)
+  end
 end
