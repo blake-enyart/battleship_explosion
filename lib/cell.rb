@@ -28,10 +28,16 @@ class Cell
 
   def render(argument=false)
     state = [".","M","S","H","X"]
-    if @ship = nil
+    if ship = nil
       state[0]
-    elsif (@ship == nil) && fire_upon
+    elsif (ship == nil) && fire_upon
       state[1]
+    elsif (ship.class == Ship)
+      state[2]
+    elsif (ship.class == Ship) && fire_upon
+      state[3]
+    else
+      "X"
     end
   end
 end

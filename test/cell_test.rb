@@ -49,6 +49,13 @@ class CellTest < Minitest::Test
 
     assert_equal "M", @cell_1.render
   end
+
+  def test_render_hits_cell_with_ship
+    @cell_2.place_ship(@nina)
+    @cell_2.fire_upon
+
+    assert_equal "H", @cell_2.render
+  end
 end
 
 ##PRY BLOCK 4
