@@ -22,7 +22,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_whether_board_has_16_key_value_pairs
-
+    assert_instance_of Hash, @board.cells
     assert_equal 16, @board.cells.length
   end
 end
