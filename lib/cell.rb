@@ -28,11 +28,13 @@ class Cell
   def render(show=false)
     if fired_upon?
       if ship
-        "H"
-      elsif !ship
+        if ship.sunk?
+          "X"
+        else
+          "H"
+        end
+      else
         "M"
-      elsif sunk?
-        "X"
       end
     elsif show
       if ship

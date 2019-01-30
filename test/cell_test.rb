@@ -69,6 +69,25 @@ class CellTest < Minitest::Test
 
     assert_equal "H", @cell_2.render
   end
+
+  def test_render_sinks_ship
+    @cell_2.place_ship(@nina)
+
+    assert_equal "S", @cell_2.render(true)
+    @cell_2.fire_upon
+
+    assert_equal "H", @cell_2.render
+    assert_equal 2, @cell_2.ship.health
+    @cell_2.fire_upon
+
+    assert_equal "H", @cell_2.render
+    assert_equal 1, @cell_2.ship.health
+    @cell_2.fire_upon
+
+    assert_equal "X", @cell_2.render
+    assert_equal 0, @cell_2.ship.health
+    assert_equal true, @cell_2.ship.sunk?
+  end
 end
 
 ##PRY BLOCK 4
