@@ -83,10 +83,14 @@ class BoardTest < Minitest::Test
 
     refute_equal true, @board.valid_placement?(@submarine, ["A1", "B1"])
   end
+
+  def test_render_displays_board_hidden_and_shows_ship_with_true
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, @board.render
+    expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+
+    assert_equal expected, @board.render(true)
+  end
 end
-
-
-
-
-
-# keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]

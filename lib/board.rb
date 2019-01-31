@@ -14,11 +14,10 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    for element in placement do
+    overlap = true
+    placement.each do |element|
       if (@cells[element].ship.class == Ship) && (@cells[element].ship != ship)
-        return overlap = false
-      else
-        overlap = true
+        overlap = false
       end
     end
 
@@ -72,5 +71,8 @@ class Board
     for cell in placement do
       @cells[cell].place_ship(ship)
     end
+  end
+
+  def render(show=false)
   end
 end

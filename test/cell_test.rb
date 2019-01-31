@@ -27,7 +27,7 @@ class CellTest < Minitest::Test
 
   def test_place_ship_fills_ship_attr_and_changes_empty_status
 
-    assert_equal @nina, @cell.place_ship(@nina)
+    @cell.place_ship(@nina)
     assert_equal false, @cell.empty?
     assert_equal @nina, @cell.ship
   end
