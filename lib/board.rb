@@ -1,7 +1,7 @@
 
 
 class Board
-  attr_reader :cells, :letters, :numbers
+  attr_reader :cells
 
   def initialize
     keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
@@ -18,24 +18,7 @@ class Board
     letters = letters_from_placement(placement)
     numbers = numbers_from_placement(placement)
 
-    if [*'A'..'Z'].join.include?(letters.join)
-      if numbers.join.count(numbers[0]) == numbers.length
-        consecutive = true
-      else
-        consecutive = false
-      end
-
-    elsif [*'1'..'9'].join.include?(numbers.join)
-      if letters.join.count(letters[0]) == letters.length
-        consecutive = true
-      else
-        consecutive = false
-      end
-    else
-      consecutive = false
-    end
-
-    verify_ship_length(ship, placement) && consecutive
+    verify_ship_length(ship, placement) && assert_correct_ship_placement(letters, numbers)
   end
 
   def letters_from_placement(placement)
@@ -52,5 +35,25 @@ class Board
 
   def verify_ship_length(ship, placement)
     ship.length == placement.length
+  end
+
+  def assert_correct_ship_placement(letters, numbers)
+    if [*'A'..'Z'].join.include?(letters.join)
+      if numbers.join.count(numbers[0]) == numbers.length
+        consecutive = true
+      else
+        consecutive = false
+      end
+
+    elsif [*'1'..'9'].join.include?(numbers.join)
+      if letters.join.count(letters[0]) == letters.length
+        consecutive = true
+      else
+        consecutive = false
+      end
+    else
+      consecutive = false
+    end
+    consecutive
   end
 end
