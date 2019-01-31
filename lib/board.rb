@@ -14,28 +14,19 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    split_cell = placement.map { |cell| cell.split(//) }.flatten
 
-    @letters = []
-    @numbers = []
+    letters = letters_from_placement(placement)
+    numbers = numbers_from_placement(placement)
 
-    for element in split_cell do
-      if split_cell.index(element).even?
-        @letters << element
-      elsif split_cell.index(element).odd?
-        @numbers << element
-      end
-    end
-
-    if [*'A'..'Z'].join.include?(@letters.join)
-      if @numbers.join.count(@numbers[0]) == @numbers.length
+    if [*'A'..'Z'].join.include?(letters.join)
+      if numbers.join.count(numbers[0]) == numbers.length
         consecutive = true
       else
         consecutive = false
       end
 
-    elsif [*'1'..'9'].join.include?(@numbers.join)
-      if @letters.join.count(@letters[0]) == @letters.length
+    elsif [*'1'..'9'].join.include?(numbers.join)
+      if letters.join.count(letters[0]) == letters.length
         consecutive = true
       else
         consecutive = false
@@ -44,6 +35,22 @@ class Board
       consecutive = false
     end
 
-    ship.length == placement.length && consecutive
+    verify_ship_length(ship, placement) && consecutive
+  end
+
+  def letters_from_placement(placement)
+    split_cell = placement.map { |cell| cell.split(//) }.flatten
+
+    split_cell.select { |element| split_cell.index(element).even? }
+  end
+
+  def numbers_from_placement(placement)
+    split_cell = placement.map { |cell| cell.split(//) }.flatten
+
+    split_cell.select { |element| split_cell.index(element).odd? }
+  end
+
+  def verify_ship_length(ship, placement)
+    ship.length == placement.length
   end
 end
