@@ -10,6 +10,10 @@ class BoardTest < Minitest::Test
     @board = Board.new
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
+    # @board.place(@cruiser, ["A1", "A2", "A3"])
+    #
+    # @board.valid_placement?(@submarine, ["A1", "B1"])
+    # binding.pry
   end
 
   def test_board_exists
@@ -63,9 +67,21 @@ class BoardTest < Minitest::Test
   def test_place_puts_same_ship_in_multiple_cells
     @board.place(@submarine, ["A1", "A2"])
 
-    assert_equal @submarine, @board.cells["A1"]
-    assert_equal @submarine, @board.cells["A2"]
-    refute_equal @submarine, @board.cells["A3"]
+    assert_instance_of Cell, @board.cells["A1"]
+    assert_equal @submarine, @board.cells["A1"].ship
+    assert_instance_of Cell, @board.cells["A2"]
+    assert_equal @submarine, @board.cells["A2"].ship
+    assert_instance_of Cell, @board.cells["A3"]
+    refute_equal @submarine, @board.cells["A3"].ship
+  end
+
+  def test_ships_cannot_overlap
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    # @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
+
+    assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
+
+    refute_equal true, @board.valid_placement?(@submarine, ["A1", "B1"])
   end
 end
 
