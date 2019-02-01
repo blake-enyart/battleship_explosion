@@ -21,8 +21,9 @@ class ShipTest < Minitest::Test
   end
 
   def test_health_decreases_with_hit_method_and_sinks
-    @ship.health
-    @ship.sunk?
+
+    assert_equal 3, @ship.health
+    assert_equal false, @ship.sunk?
     @ship.hit
 
     assert_equal 2, @ship.health

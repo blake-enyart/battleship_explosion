@@ -21,7 +21,7 @@ class Cell
   end
 
   def fire_upon
-    ship.hit if ship.class == Ship
+    ship.hit if !empty?
     @fired = true
   end
 
@@ -36,12 +36,8 @@ class Cell
       else
         "M"
       end
-    elsif show
-      if ship
+    elsif show && ship
         "S"
-      else
-        "."
-      end
     else
       "."
     end
