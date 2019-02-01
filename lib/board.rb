@@ -4,9 +4,9 @@ class Board
   attr_reader :cells
 
   def initialize
-    keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
+    @keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
     @cells = {}
-    keys.map { |cell| @cells[cell] = Cell.new(cell)}
+    @keys.map { |cell| @cells[cell] = Cell.new(cell)}
   end
 
   def valid_coordinate?(cell)
@@ -74,5 +74,21 @@ class Board
   end
 
   def render(show=false)
+    board_layout = "  "
+    numbers = numbers_from_placement(@keys).uniq!
+    letters = letters_from_placement(@keys).uniq!
+
+    numbers.each { |cell| board_layout << cell + ' ' }
+    board_layout << "\n"
+    letters.each { |cell|
+      board_layout << cell + ' '
+      row = @keys.select { |key| key.include?(cell) }
+      for key in row do
+        board_layout << @cells[key].render(show) + ' '
+      end
+      board_layout << "\n"
+    }
+    board_layout
+    # binding.pry
   end
 end

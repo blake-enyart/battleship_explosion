@@ -89,8 +89,8 @@ class BoardTest < Minitest::Test
     expected = "  1 2 3 4 \nA . . . . \nB . . . . \nC . . . . \nD . . . . \n"
 
     assert_equal expected, @board.render
-    expected = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
+    apple = "  1 2 3 4 \nA S S S . \nB . . . . \nC . . . . \nD . . . . \n"
 
-    assert_equal expected, @board.render(true)
+    assert_equal apple, @board.render(true)
   end
 end
