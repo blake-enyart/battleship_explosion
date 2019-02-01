@@ -1,7 +1,8 @@
 
 
 class Board
-  attr_reader :cells
+  attr_reader :cells,
+              :keys
 
   def initialize
     @keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
@@ -68,7 +69,7 @@ class Board
   end
 
   def place(ship, placement)
-    for cell in placement do
+    placement.each do |cell|
       @cells[cell].place_ship(ship)
     end
   end
@@ -89,6 +90,5 @@ class Board
       board_layout << "\n"
     }
     board_layout
-    # binding.pry
   end
 end
