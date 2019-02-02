@@ -28,9 +28,9 @@ class Setup
 
     player_place_ships
 
-    turn = Turn.new
+    turn = Turn.new(@board_comp, @board_player)
 
-    turn.initiate_game(@board_comp, @board_player)
+    turn.initiate_game
   end
 
   def comp_place_ship_on_board(name, length)
@@ -52,13 +52,15 @@ class Setup
     puts @board_player.render
     puts "Enter the squares for the Cruiser with a space
     between each cell and press enter (3 spaces):"
-    cruiser_place = gets.chomp.upcase.split(" ").to_a
+    cruiser_place = ["A1", "A2", "A3"]
+    # cruiser_place = gets.chomp.upcase.split(" ").to_a
 
     player_place_ship_on_board("Cruiser", 3, cruiser_place)
 
     puts "Enter the squares for the Submarine with a space
     between each cell and press enter (2 spaces):"
-    submarine_place = gets.chomp.upcase.split(" ").to_a
+    submarine_place = ["B1", "B2"]
+    # submarine_place = gets.chomp.upcase.split(" ").to_a
 
     player_place_ship_on_board("Submarine", 2, submarine_place)
   end
