@@ -14,6 +14,7 @@ class BoardTest < Minitest::Test
     #
     # @board.valid_placement?(@submarine, ["A1", "B1"])
     # binding.pry
+
   end
 
   def test_board_exists
@@ -37,6 +38,7 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_coordinate_method
+
 
     assert_equal true, @board.valid_coordinate?("D4")
     assert_equal false, @board.valid_coordinate?("A5")
@@ -95,3 +97,4 @@ class BoardTest < Minitest::Test
     assert_equal apple, @board.render(true)
   end
 end
+
