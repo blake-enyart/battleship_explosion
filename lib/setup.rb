@@ -130,13 +130,14 @@ class Setup
   def player_turn
     puts "Enter the coordinate for your shot:"
     @player_shot = gets.chomp.upcase
-    while !@board_comp.cells.keys.include?(@player_shot)
-      puts "Please enter a valid coordinate:"
-      @player_shot = gets.chomp.upcase
-    end
-    @board_comp.cells[@player_shot].fire_upon
-  end
 
+      while !@board_comp.cells.keys.include?(@player_shot) ||
+        @board_comp.cells[@player_shot].fired_upon?
+        puts "The coordinate you entered has been fired upon or is invalid.  Please enter a valid coordinate:"
+        @player_shot = gets.chomp.upcase
+      end
+        @board_comp.cells[@player_shot].fire_upon
+   end
 
   def render_board
     puts "="*10 + "COMPUTER BOARD" + "="*10
