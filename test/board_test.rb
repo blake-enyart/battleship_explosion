@@ -59,6 +59,7 @@ class BoardTest < Minitest::Test
 
   def test_backwards_and_nonsequential_placements_rejected
 
+    assert_equal false,  @board.valid_placement?(@cruiser, ["A31", "A2", "A1"])
     assert_equal false,  @board.valid_placement?(@cruiser, ["A3", "A2", "A1"])
     assert_equal false,  @board.valid_placement?(@submarine, ["A1", "C1"])
     assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])

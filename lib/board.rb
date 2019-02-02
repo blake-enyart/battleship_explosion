@@ -16,6 +16,10 @@ class Board
 
   def valid_placement?(ship, placement)
     overlap = true
+    placement.each { |element|
+      if !valid_coordinate?(element)
+        return false
+      end }
     placement.each do |element|
       if (@cells[element].ship.class == Ship) && (@cells[element].ship != ship)
         overlap = false
