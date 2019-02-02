@@ -2,8 +2,10 @@ require './lib/turn'
 
 class Setup
 
+  attr_accessor :board_comp,
+              :board_player
+
   def initialize()
-    start_game
     @board_comp
     @board_player
   end
@@ -14,6 +16,7 @@ class Setup
     input = gets.chomp.downcase
     if input == "p"
       setup_board
+      take_turn
     elsif input == "q"
       return
     end
@@ -21,34 +24,39 @@ class Setup
 
   def setup_board
     @board_comp = Board.new
+    computer_places_ships
+    @board_player = Board.new
+    player_sets_up_ships
+  end
 
-    comp_place_ship_on_board("Submarine", 2)
-
-    comp_place_ship_on_board("Cruiser", 3)
-
-    player_place_ships
-
+  def take_turn
     turn = Turn.new(@board_comp, @board_player)
-
     turn.initiate_game
   end
 
-  def comp_place_ship_on_board(name, length)
-    ship = Ship.new(name, length)
-    placement = @board_comp.keys.sample(ship.length)
-    while @board_comp.valid_placement?(ship, placement) == false
+  def computer_places_ships
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    comp_place_ship_on_board(cruiser)
+    comp_place_ship_on_board(submarine)
+  end
+
+  def comp_place_ship_on_board(ship)
+    placement = []
+    while !@board_comp.valid_placement?(ship, placement)
       placement = @board_comp.keys.sample(ship.length)
       if @board_comp.valid_placement?(ship, placement)
         @board_comp.place(ship, placement)
+        break
       end
     end
   end
 
-  def player_place_ships
+  def player_sets_up_ships
     puts "I have laid out my ships on the grid."
     puts "You now need to lay out your two ships."
     puts "The Cruiser is two units long and the Submarine is three units long."
-    @board_player = Board.new
     puts @board_player.render
     puts "Enter the squares for the Cruiser with a space
     between each cell and press enter (3 spaces):"
@@ -67,16 +75,13 @@ class Setup
 
   def player_place_ship_on_board(name, length, placement)
     ship = Ship.new(name, length)
-    while @board_player.valid_placement?(ship, placement) == false
+    while !@board_player.valid_placement?(ship, placement)
       puts "Those are invalid coordinates. Please try again:"
       placement = gets.chomp.upcase.split(" ").to_a
       if @board_player.valid_placement?(ship, placement)
         @board_player.place(ship, placement)
+        break
       end
-    end
-
-    if @board_player.valid_placement?(ship, placement)
-      @board_player.place(ship, placement)
     end
   end
 end

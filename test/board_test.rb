@@ -14,7 +14,6 @@ class BoardTest < Minitest::Test
     #
     # @board.valid_placement?(@submarine, ["A1", "B1"])
     # binding.pry
-
   end
 
   def test_board_exists
@@ -38,7 +37,6 @@ class BoardTest < Minitest::Test
   end
 
   def test_valid_coordinate_method
-
 
     assert_equal true, @board.valid_coordinate?("D4")
     assert_equal false, @board.valid_coordinate?("A5")
@@ -67,6 +65,12 @@ class BoardTest < Minitest::Test
     assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
   end
 
+  def test_cannot_enter_nothing_or_off_board
+
+    assert_equal false,  @board.valid_placement?(@cruiser, ["A31", "A2", "A1"])
+    assert_equal false,  @board.valid_placement?(@cruiser, [])
+  end
+
   def test_place_puts_same_ship_in_multiple_cells
     @board.place(@submarine, ["A1", "A2"])
 
@@ -80,11 +84,10 @@ class BoardTest < Minitest::Test
 
   def test_ships_cannot_overlap
     @board.place(@cruiser, ["A1", "A2", "A3"])
-    # @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
 
     assert_equal true, @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
-
-    refute_equal true, @board.valid_placement?(@submarine, ["A1", "B1"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "A2"])
+    assert_equal false, @board.valid_placement?(@submarine, ["A1", "B1"])
   end
 
   def test_render_displays_board_hidden_and_shows_ship_with_true
@@ -97,4 +100,3 @@ class BoardTest < Minitest::Test
     assert_equal apple, @board.render(true)
   end
 end
-
