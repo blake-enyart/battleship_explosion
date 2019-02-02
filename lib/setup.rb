@@ -1,8 +1,11 @@
+require './lib/turn'
+
 class Setup
 
   def initialize()
     start_game
     @board_comp
+    @board_player
   end
 
   def start_game
@@ -24,6 +27,10 @@ class Setup
     comp_place_ship_on_board("Cruiser", 3)
 
     player_place_ships
+
+    turn = Turn.new
+
+    turn.initiate_game(@board_comp, @board_player)
   end
 
   def comp_place_ship_on_board(name, length)
