@@ -6,4 +6,6 @@ require './lib/setup'
 require 'pry'
 
 setup = Setup.new
+
+
 setup.start_game

@@ -17,6 +17,7 @@ class Setup
     if input == "p"
       setup_board
       take_turn
+      repeat_game
     elsif input == "q"
       return
     end
@@ -70,7 +71,6 @@ class Setup
   def player_place_ship_on_board(name, length, placement)
     ship = Ship.new(name, length)
     while !@board_player.valid_placement?(ship, placement)
-      binding.pry
       puts "Those are invalid coordinates. Please try again:"
       placement = gets.chomp.upcase.split(" ").to_a
       if @board_player.valid_placement?(ship, placement)
@@ -92,6 +92,8 @@ class Setup
       player_turn
 
       computer_turn
+
+
       puts
       puts
       render_board
@@ -116,6 +118,11 @@ class Setup
       puts
       puts
     end
+      if @board_comp.render(true).include?('S')
+        puts "I sank your ships! You lose!"
+      else
+        puts "You sank my ships! You win!"
+      end
   end
 
   def computer_turn
@@ -145,6 +152,19 @@ class Setup
     puts @board_comp.render(true)
     puts "="*10 + "PLAYER BOARD" + "="*10
     puts @board_player.render(true)
+  end
+
+  def repeat_game
+    puts "Would you like to play again?"
+    puts "Enter p to play. Enter q to quit."
+    input = gets.chomp.downcase
+    if input == "p"
+      setup_board
+      take_turn
+      repeat_game
+    elsif input == "q"
+      return
+    end
   end
 
 end
