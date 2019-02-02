@@ -1,4 +1,4 @@
-require './lib/turn'
+# require './lib/turn'
 
 class Setup
 
@@ -97,15 +97,19 @@ class Setup
       render_board
       puts
       shot = @board_comp.cells[@player_shot].render
-      if shot.include?('X') || shot.include?('H')
+      if shot.include?('H')
         puts "Your shot on #{@player_shot} was a hit!"
+      elsif shot.include?('X')
+        puts "You sank my #{@board_comp.cells[@player_shot].ship.name}!"
       else
         puts "Your shot on #{@player_shot} was a miss"
       end
 
       shot = @board_player.cells[@comp_shot].render
-      if shot.include?('X') || shot.include?('H')
+      if  shot.include?('H')
         puts "My shot on #{@comp_shot} was a hit!"
+      elsif shot.include?('X')
+        puts "My shot sank your #{board_player.cells[@comp_shot].ship.name}!"
       else
         puts "My shot on #{@comp_shot} was a miss"
       end
