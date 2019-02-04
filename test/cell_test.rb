@@ -10,7 +10,7 @@ class CellTest < Minitest::Test
     @cell = Cell.new("B4")
     @nina = Ship.new("Cruiser", 3)
 
-    @cell_1 = Cell.new("B4")
+    @cell_1 = Cell.new("B1")
     @cell_2 = Cell.new("C3")
   end
 
@@ -43,21 +43,29 @@ class CellTest < Minitest::Test
     assert_equal true, @cell.fired_upon?
   end
 
-  def test_render_period_if_not_fired_upon
+  def test_render_period_if_ship_not_fired_upon
     @cell_2.place_ship(@nina)
 
-    assert_nil @cell_1.ship
     assert_instance_of Ship, @cell_2.ship
-    assert_equal ".", @cell_1.render
+    assert_equal false, @cell_2.fired_upon?
     assert_equal ".", @cell_2.render
   end
 
-  def test_render_misses_empty_cell
+  def test_render_period_if_empty_cell_not_fired_upon
+
+    assert_nil @cell_1.ship
+    assert_equal false, @cell_1.fired_upon?
+    assert_equal ".", @cell_1.render
+  end
+
+  def test_render_shows_miss_when_firing_on_empty_cell
+
+    assert_nil @cell.ship
     assert_equal ".", @cell.render
     assert_equal ".", @cell.render(true)
-    @cell_1.fire_upon
+    @cell.fire_upon
 
-    assert_equal "M", @cell_1.render
+    assert_equal "M", @cell.render
   end
 
   def test_render_hits_cell_with_ship
