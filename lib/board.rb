@@ -8,8 +8,7 @@ class Board
   def initialize
     @keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
     @cells = {}
-    @keys.map { |cell| @cells[cell] = Cell.new(cell)}
-
+    @keys.map { |cell| @cells[cell] = Cell.new(cell) }
   end
 
   def valid_coordinate?(cell)
@@ -17,22 +16,27 @@ class Board
   end
 
   def valid_placement?(ship, placement)
-    overlap = true
-    placement.each { |element|
-      if !valid_coordinate?(element)
-        return false
-      end }
-    placement.each do |element|
-      if (@cells[element].ship.class == Ship) && (@cells[element].ship != ship)
-        overlap = false
-      end
-    end
-
     letters = letters_from_placement(placement)
     numbers = numbers_from_placement(placement)
 
     verify_ship_length(ship, placement) &&
     assert_correct_ship_placement(letters, numbers) &&
+    overlap?(ship, placement)
+  end
+
+  def overlap?(ship, placement)
+    overlap = true
+    placement.each do |element|
+      if !valid_coordinate?(element)
+        return false
+      end
+    end
+    placement.each do |element|
+      if (@cells[element].ship.class == Ship) &&
+      (@cells[element].ship != ship)
+        overlap = false
+      end
+    end
     overlap
   end
 
@@ -59,9 +63,6 @@ class Board
       else
         consecutive = false
       end
-
-      #need to adjust this to account for fringe cases of more
-      #than single digit system
     elsif [*'1'..'9'].join.include?(numbers.join)
       if letters.join.count(letters[0]) == letters.length
         consecutive = true
@@ -71,6 +72,7 @@ class Board
     else
       consecutive = false
     end
+
     consecutive
   end
 
@@ -85,16 +87,17 @@ class Board
     numbers = numbers_from_placement(@keys).uniq!
     letters = letters_from_placement(@keys).uniq!
 
-    numbers.each { |cell| board_layout << cell + ' ' }
+    numbers.each { |number| board_layout << "#{number} " }
     board_layout << "\n"
-    letters.each { |cell|
-      board_layout << cell + ' '
-      row = @keys.select { |key| key.include?(cell) }
-      for key in row do
-        board_layout << @cells[key].render(show) + ' '
+    letters.each do |letter|
+      board_layout << "#{letter} "
+      row = @keys.select { |key| key.include?(letter) }
+      row.each do |key|
+        board_layout << "#{@cells[key].render(show)} "
       end
       board_layout << "\n"
-    }
+    end
+
     board_layout
   end
 end
