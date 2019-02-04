@@ -11,6 +11,7 @@ class Setup
   end
 
   def start_game
+    puts
     puts "Welcome to BATTLESHIP!!!"
     puts "Enter p to play. Enter q to quit."
     input = gets.chomp.downcase
@@ -55,15 +56,13 @@ class Setup
     puts @board_player.render(true)
     puts "Enter the squares for the Cruiser with a space
     between each cell and press enter (3 spaces):"
-    cruiser_place = ["A1", "A2", "A3"]
-    # cruiser_place = gets.chomp.upcase.split(" ").to_a
+    cruiser_place = gets.chomp.upcase.split(" ").to_a
 
     player_place_ship_on_board("Cruiser", 3, cruiser_place)
     puts @board_player.render(true)
     puts "Enter the squares for the Submarine with a space
     between each cell and press enter (2 spaces):"
-    submarine_place = ["B1", "B2"]
-    # submarine_place = gets.chomp.upcase.split(" ").to_a
+    submarine_place = gets.chomp.upcase.split(" ").to_a
 
     player_place_ship_on_board("Submarine", 2, submarine_place)
   end
@@ -90,10 +89,7 @@ class Setup
         break
       end
       player_turn
-
       computer_turn
-
-
       puts
       puts
       render_board
@@ -118,12 +114,20 @@ class Setup
       puts
       puts
     end
-      if @board_comp.render(true).include?('S')
-        puts "I sank your ships! You lose!"
-      else
-        puts "You sank my ships! You win!"
-      end
+
+  end_game
+  puts
+
   end
+
+  def end_game
+    if @board_comp.render(true).include?('S')
+      puts "I sank your ships! You lose!"
+    else
+      puts "You sank my ships! You win!"
+    end
+  end
+
 
   def computer_turn
     @comp_shot = @board_comp.keys.sample(1)[0]
@@ -140,7 +144,7 @@ class Setup
 
     while !@board_comp.cells.keys.include?(@player_shot) ||
       @board_comp.cells[@player_shot].fired_upon?
-      puts "The coordinate you entered has been fired upon or is invalid.  Please enter a valid coordinate:"
+      puts "The coordinate you entered has been fired upon or is invalid. Please enter a valid coordinate:"
       @player_shot = gets.chomp.upcase
     end
 
@@ -149,7 +153,7 @@ class Setup
 
   def render_board
     puts "="*10 + "COMPUTER BOARD" + "="*10
-    puts @board_comp.render(true)
+    puts @board_comp.render
     puts "="*10 + "PLAYER BOARD" + "="*10
     puts @board_player.render(true)
   end
@@ -159,6 +163,8 @@ class Setup
     puts "Enter p to play. Enter q to quit."
     input = gets.chomp.downcase
     if input == "p"
+      @board_comp = Board.new
+      @board_player = Board.new
       setup_board
       take_turn
       repeat_game
