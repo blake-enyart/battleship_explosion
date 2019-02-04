@@ -37,6 +37,7 @@ class CellTest < Minitest::Test
 
     assert_equal false, @cell.fired_upon?
     assert_equal 3, @cell.ship.health
+
     @cell.fire_upon
 
     assert_equal 2, @cell.ship.health
@@ -63,6 +64,7 @@ class CellTest < Minitest::Test
     assert_nil @cell.ship
     assert_equal ".", @cell.render
     assert_equal ".", @cell.render(true)
+
     @cell.fire_upon
 
     assert_equal "M", @cell.render
@@ -71,10 +73,15 @@ class CellTest < Minitest::Test
   def test_render_hits_cell_with_ship
     @cell_2.place_ship(@nina)
 
-    assert_equal ".", @cell_2.render
+    assert_equal 3, @cell_2.ship.health
+    assert_equal false, @cell_2.fired_upon?
+    assert_equal Ship, @cell_2.ship.class
     assert_equal "S", @cell_2.render(true)
+
     @cell_2.fire_upon
 
+    assert_equal true, @cell_2.fired_upon?
+    assert_equal 2, @cell_2.ship.health
     assert_equal "H", @cell_2.render
   end
 
@@ -82,14 +89,17 @@ class CellTest < Minitest::Test
     @cell_2.place_ship(@nina)
 
     assert_equal "S", @cell_2.render(true)
+
     @cell_2.fire_upon
 
     assert_equal "H", @cell_2.render
     assert_equal 2, @cell_2.ship.health
+
     @cell_2.fire_upon
 
     assert_equal "H", @cell_2.render
     assert_equal 1, @cell_2.ship.health
+
     @cell_2.fire_upon
 
     assert_equal "X", @cell_2.render
@@ -97,109 +107,3 @@ class CellTest < Minitest::Test
     assert_equal true, @cell_2.ship.sunk?
   end
 end
-
-##PRY BLOCK 4
-
-# cell_1 = Cell.new("B4")
-# # => #<Cell:0x00007f84f11df920...>
-#
-# cell_1.render
-# # => "."
-#
-# cell_1.fire_upon
-#
-# cell_1.render
-# # => "M"
-#
-# cell_2 = Cell.new("C3")
-# # => #<Cell:0x00007f84f0b29d10...>
-#
-# cruiser = Ship.new("Cruiser", 3)
-# # => #<Ship:0x00007f84f0ad4fb8...>
-#
-# cell_2.place_ship(cruiser)
-#
-# cell_2.render
-# # => "."
-#
-# # Indicate that we want to show a ship with the optional argument
-# cell_2.render(true)
-# # => "S"
-#
-# cell_2.fire_upon
-#
-# cell_2.render
-# # => "H"
-#
-# cruiser.sunk?
-# # => false
-#
-# cruiser.hit
-#
-# cruiser.hit
-#
-# cruiser.sunk?
-# # => true
-#
-# cell_2.render
-# # => "X"
-
-##PRY BLOCK 3
-
-# require './lib/ship'
-# # => true
-#
-# require './lib/cell'
-# # => true
-#
-# cell = Cell.new("B4")
-# # => #<Cell:0x00007f84f0ad4720...>
-#
-# cruiser = Ship.new("Cruiser", 3)
-# # => #<Ship:0x00007f84f0891238...>
-#
-# cell.place_ship(cruiser)
-#
-# cell.fired_upon?
-# # => false
-#
-# cell.fire_upon
-#
-# cell.ship.health
-# # => 2
-#
-# cell.fired_upon?
-# # => true
-
-
-#Block 2 Pry session
-
-
-# require './lib/ship'
-# # => true
-#
-# require './lib/cell'
-# # => true
-#
-# cell = Cell.new("B4")
-# # => #<Cell:0x00007f84f0ad4720...>
-#
-# cell.coordinate
-# # => "B4"
-#
-# cell.ship
-# # => nil
-#
-# cell.empty?
-# # => true
-#
-# cruiser = Ship.new("Cruiser", 3)
-# # => #<Ship:0x00007f84f0891238...>
-#
-# cell.place_ship(cruiser)
-#
-# cell.ship
-# # => #<Ship:0x00007f84f0891238...>
-#
-# cell.empty?
-# # => false
