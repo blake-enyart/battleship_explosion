@@ -1,9 +1,7 @@
-# require './lib/turn'
-
 class Setup
 
   attr_accessor :board_comp,
-              :board_player
+                :board_player
 
   def initialize()
     @board_comp = Board.new
@@ -94,40 +92,20 @@ class Setup
       puts
       render_board
       puts
+
       shot = @board_comp.cells[@player_shot].render
-      if shot.include?('H')
-        puts "Your shot on #{@player_shot} was a hit!"
-      elsif shot.include?('X')
-        puts "You sank my #{@board_comp.cells[@player_shot].ship.name}!"
-      else
-        puts "Your shot on #{@player_shot} was a miss"
-      end
+      computer_evaluates_player_shot(shot)
 
       shot = @board_player.cells[@comp_shot].render
-      if  shot.include?('H')
-        puts "My shot on #{@comp_shot} was a hit!"
-      elsif shot.include?('X')
-        puts "My shot sank your #{board_player.cells[@comp_shot].ship.name}!"
-      else
-        puts "My shot on #{@comp_shot} was a miss"
-      end
+      computer_evaluates_own_shot(shot)
+
       puts
       puts
     end
 
-  end_game
-  puts
-
+    end_game
+    puts
   end
-
-  def end_game
-    if @board_comp.render(true).include?('S')
-      puts "I sank your ships! You lose!"
-    else
-      puts "You sank my ships! You win!"
-    end
-  end
-
 
   def computer_turn
     @comp_shot = @board_comp.keys.sample(1)[0]
@@ -149,11 +127,39 @@ class Setup
     end
 
     @board_comp.cells[@player_shot].fire_upon
-   end
+  end
+
+  def computer_evaluates_player_shot(shot)
+    if shot.include?('H')
+      puts "Your shot on #{@player_shot} was a hit!"
+    elsif shot.include?('X')
+      puts "You sank my #{@board_comp.cells[@player_shot].ship.name}!"
+    else
+      puts "Your shot on #{@player_shot} was a miss"
+    end
+  end
+
+  def computer_evaluates_own_shot(shot)
+    if  shot.include?('H')
+      puts "My shot on #{@comp_shot} was a hit!"
+    elsif shot.include?('X')
+      puts "My shot sank your #{board_player.cells[@comp_shot].ship.name}!"
+    else
+      puts "My shot on #{@comp_shot} was a miss"
+    end
+  end
+
+  def end_game
+    if @board_comp.render(true).include?('S')
+      puts "I sank your ships! You lose!"
+    else
+      puts "You sank my ships! You win!"
+    end
+  end
 
   def render_board
     puts "="*10 + "COMPUTER BOARD" + "="*10
-    puts @board_comp.render
+    puts @board_comp.render(true)
     puts "="*10 + "PLAYER BOARD" + "="*10
     puts @board_player.render(true)
   end
@@ -172,5 +178,4 @@ class Setup
       return
     end
   end
-
 end
