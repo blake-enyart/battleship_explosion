@@ -54,14 +54,14 @@ class Setup
     puts @board_player.render(true)
     puts "Enter the squares for the Cruiser with a space
     between each cell and press enter (3 spaces):"
-    cruiser_place = gets.chomp.upcase.split(" ").to_a
-
+    # cruiser_place = gets.chomp.upcase.split(" ").to_a
+    cruiser_place = ["A1", "A2", "A3"]
     player_place_ship_on_board("Cruiser", 3, cruiser_place)
     puts @board_player.render(true)
     puts "Enter the squares for the Submarine with a space
     between each cell and press enter (2 spaces):"
-    submarine_place = gets.chomp.upcase.split(" ").to_a
-
+    # submarine_place = gets.chomp.upcase.split(" ").to_a
+    submarine_place = ["B4", "C4"]
     player_place_ship_on_board("Submarine", 2, submarine_place)
   end
 
@@ -109,12 +109,60 @@ class Setup
 
   def computer_turn
     @comp_shot = @board_comp.keys.sample(1)[0]
+    if @board_player.render(true).include?('H')
+      smart_shot
+    end
+
     while @board_player.cells[@comp_shot].fired_upon?
       @comp_shot = @board_comp.keys.sample(1)[0]
     end
 
     @board_player.cells[@comp_shot].fire_upon
   end
+
+  def smart_shot()
+    previous_shots = []
+
+    if @board_player.render(true).count('H') == 1
+      @board_player.cells.each do |cell, cell_object|
+        if cell_object.render(true) == 'H'
+          previous_shots << cell
+        end
+      end
+      letters = @board_player.letters_from_placement(previous_shots)
+      numbers = @board_player.numbers_from_placement(previous_shots)
+
+      possible_shots = [((letters[0].ord)+1).chr.to_s + numbers[0],
+                      ((letters[0].ord)-1).chr.to_s + numbers[0],
+                      letters[0]+((numbers[0].ord)+1).chr.to_s,
+                      letters[0]+((numbers[0].ord)-1).chr.to_s]
+      possible_shots.keep_if { |shot| @board_player.cells.keys.include?(shot) }
+
+    elsif @board_player.render(true).count('H') > 1
+      @board_player.cells.each do |cell, cell_object|
+        if cell_object.render(true) == 'H'
+          previous_shots << cell
+        end
+      end
+
+      letters = @board_player.letters_from_placement(previous_shots)
+      numbers = @board_player.numbers_from_placement(previous_shots)
+
+      if letters.uniq == 1
+        possible_shots = [letters[0]+((numbers[0].ord)+1).chr.to_s,
+                        letters[0]+((numbers[0].ord)-1).chr.to_s]
+      elsif numbers.uniq == 1
+        possible_shots = [((letters[0].ord)+1).chr.to_s + numbers[0],
+                        ((letters[0].ord)-1).chr.to_s + numbers[0]]
+      end
+    end
+    @comp_shot = possible_shots.sample(1)[0]
+    @board_player.cells[@comp_shot].fire_upon
+    binding.pry
+  end
+
+
+
 
   def player_turn
     puts "Enter the coordinate for your shot:"
