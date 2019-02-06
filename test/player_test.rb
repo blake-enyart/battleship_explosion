@@ -33,4 +33,14 @@ class PlayerTest < Minitest::Test
 
     assert_equal true, possible_shots.include?(@computer.smart_shot(@player))
   end
+
+  def test_computer_fires_genius_shot_with_2_hits
+    @player.mock_set_up_ships
+    @player.board.cells['A2'].fire_upon
+    @player.board.cells['A3'].fire_upon
+    @computer.hit_history << ['A2','H'] << ['A3', 'H']
+    possible_shots = ['A1','A4']
+
+    assert_equal true, possible_shots.include?(@computer.genius_shot(@player))
+  end
 end

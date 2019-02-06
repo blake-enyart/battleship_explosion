@@ -95,7 +95,10 @@ class Player
   def computer_turn(player)
     if @hit_history.length == 1 && @hit_history[-1][1] != 'X'
       smart_shot(player)
+    elsif @hit_history.length > 1 && @hit_history[-1][1] != 'X'
+      genius_shot(player)
     end
+
 
     shot = @board.cells.keys.sample(1)[0]
     while player.board.cells[shot].fired_upon?
@@ -119,6 +122,30 @@ class Player
                       (hit_row.ord+1).chr.to_s+hit_column]
 
     possible_shots.keep_if { |shot| @board.cells.key?(shot) }
+
+    shot = possible_shots.sample(1)[0]
+    player.board.cells[shot].fire_upon
+
+    if ['X','H'].include?(player.board.cells[shot].render)
+      @hit_history << [shot, player.board.cells[shot].render]
+    end
+    shot
+  end
+
+  def genius_shot(player)
+    confirmed_hit = []
+    @hit_history.each { |shot| confirmed_hit << shot[0] }
+    number = @board.numbers_from_placement(confirmed_hit)
+    letter = @board.letters_from_placement(confirmed_hit)
+    if letter.uniq!.length == 1
+      possible_shots = [letter.uniq[0]+(number.uniq[0].ord-1).chr.to_s,
+                        letter.uniq[0]+(number.uniq[-1].ord+1).chr.to_s]
+      possible_shots.keep_if { |shot| @board.cells.key?(shot) }
+    elsif number.uniq!.length == 1
+        possible_shots = [(letter.uniq[0].ord-1).chr.to_s+number.uniq[0],
+                          (letter.uniq[-1].ord+1).chr.to_s+number.uniq[0]]
+        possible_shots.keep_if { |shot| @board.cells.key?(shot) }
+    end
 
     shot = possible_shots.sample(1)[0]
     player.board.cells[shot].fire_upon
