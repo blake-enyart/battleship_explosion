@@ -42,10 +42,10 @@ class Setup
       render_board
       puts
 
-      shot = @player.shot_history[-1][1]
+      shot = @player.shot_history[-1][1].render
       computer_evaluates_player_shot(shot)
 
-      shot = @computer.shot_history[-1][1].render
+      shot = @computer.shot_history[-1][1].render(true)
       computer_evaluates_own_shot(shot)
 
       puts

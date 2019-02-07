@@ -59,9 +59,11 @@ class Player
       end
     end
 
-    @shot_history << [shot, computer.board.cells[shot].render]
+    @shot_history << [shot, computer.board.cells[shot]]
     computer.board.cells[shot].fire_upon
-    @hit_history << [shot, computer.board.cells[shot].render]
+    if ['X','H'].include?(computer.board.cells[shot].render)
+      @hit_history << [shot, computer.board.cells[shot]]
+    end
   end
 
   def computer_sets_up_ships
