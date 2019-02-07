@@ -16,12 +16,17 @@ class Setup
     puts "Welcome to BATTLESHIP!!!"
     puts "Enter p to play. Enter q to quit."
     input = gets.chomp.downcase
-    input = "p"
+
+    while input != 'p' && input != 'q'
+      puts 'Invalid entry. Please enter p to play or q to quit.'
+      input = gets.chomp.downcase
+    end
+
     if input == "p"
       setup_board
       take_turn
       repeat_game
-    elsif input == "q"
+    else
       return
     end
   end
