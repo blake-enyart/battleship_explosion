@@ -2,7 +2,7 @@ require './lib/ship'
 require './lib/cell'
 require './lib/board'
 require './lib/setup'
-# require './lib/turn'
+require './lib/player'
 require 'pry'
 
 setup = Setup.new
