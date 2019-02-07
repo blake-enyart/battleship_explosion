@@ -15,7 +15,7 @@ class Setup
     puts
     puts "Welcome to BATTLESHIP!!!"
     puts "Enter p to play. Enter q to quit."
-    # input = gets.chomp.downcase
+    input = gets.chomp.downcase
     input = "p"
     if input == "p"
       setup_board
@@ -35,17 +35,17 @@ class Setup
   def take_turn
     while @computer_board.render(true).include?('S') &&
     @player_board.render(true).include?('S')
-      @player.player_turn(@computer_board)
-      @computer.computer_turn(@player_board)
+      @player.player_turn(@computer)
+      @computer.computer_turn(@player)
       puts
       puts
       render_board
       puts
 
-      shot = @player.turn_history[-1][1]
+      shot = @player.shot_history[-1][1]
       computer_evaluates_player_shot(shot)
 
-      shot = @computer.turn_history[-1][1]
+      shot = @computer.shot_history[-1][1].render
       computer_evaluates_own_shot(shot)
 
       puts
@@ -58,21 +58,21 @@ class Setup
 
   def computer_evaluates_player_shot(shot)
     if shot.include?('H')
-      puts "Your shot on #{@player.turn_history[-1][0]} was a hit!"
+      puts "Your shot on #{@player.shot_history[-1][0]} was a hit!"
     elsif shot.include?('X')
-      puts "You sank my #{@computer_board.cells[@player.turn_history[-1][0]].ship.name}!"
+      puts "You sank my #{@computer_board.cells[@player.shot_history[-1][0]].ship.name}!"
     else
-      puts "Your shot on #{@player.turn_history[-1][0]} was a miss"
+      puts "Your shot on #{@player.shot_history[-1][0]} was a miss"
     end
   end
 
   def computer_evaluates_own_shot(shot)
     if  shot.include?('H')
-      puts "My shot on #{@computer.turn_history[-1][0]} was a hit!"
+      puts "My shot on #{@computer.shot_history[-1][0]} was a hit!"
     elsif shot.include?('X')
-      puts "My shot sank your #{@player_board.cells[@computer.turn_history[-1][0]].ship.name}!"
+      puts "My shot sank your #{@player_board.cells[@computer.shot_history[-1][0]].ship.name}!"
     else
-      puts "My shot on #{@computer.turn_history[-1][0]} was a miss"
+      puts "My shot on #{@computer.shot_history[-1][0]} was a miss"
     end
   end
 
@@ -86,7 +86,7 @@ class Setup
 
   def render_board
     puts "="*10 + "COMPUTER BOARD" + "="*10
-    puts @computer_board.render(true)
+    puts @computer_board.render
     puts "="*10 + "PLAYER BOARD" + "="*10
     puts @player_board.render(true)
   end
