@@ -1,12 +1,12 @@
 
 
 class Board
-
+  KEYS = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"].freeze
   attr_reader :cells,
               :keys
 
-  def initialize
-    @keys = ["A1", "A2", "A3", "A4", "B1", "B2", "B3", "B4", "C1", "C2", "C3", "C4", "D1", "D2", "D3", "D4"]
+  def initialize(dimensions:)
+    @keys = 
     @cells = {}
     @keys.map { |cell| @cells[cell] = Cell.new(cell) }
   end
@@ -84,7 +84,7 @@ class Board
 
   def render(show=false)
     board_layout = "  "
-    numbers = numbers_from_placement(@keys).uniq!
+    numbers = numbers_from_placement(KEYS).uniq!
     letters = letters_from_placement(@keys).uniq!
 
     numbers.each { |number| board_layout << "#{number} " }

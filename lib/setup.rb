@@ -37,6 +37,59 @@ class Setup
     render_board
   end
 
+<<<<<<< Updated upstream
+=======
+  def computer_sets_up_ships
+    cruiser = Ship.new("Cruiser", 3)
+    submarine = Ship.new("Submarine", 2)
+
+    comp_place_ship_on_board(cruiser)
+    comp_place_ship_on_board(submarine)
+  end
+
+  def comp_place_ship_on_board(ship)
+    placement = []
+    while !@board_comp.valid_placement?(ship, placement)
+      placement = @board_comp.keys.sample(ship.length)
+    end
+    @board_comp.place(ship, placement)
+  end
+
+  def player_sets_up_ships
+    puts "I have laid out my ships on the grid."
+    puts "You now need to lay out your two ships."
+    puts "The Cruiser is two units long and the Submarine is three units long."
+    puts @board_player.render(true)
+    puts "Enter the squares for the Cruiser with a space
+    between each cell and press enter (3 spaces):"
+    # cruiser_place = gets.chomp.upcase.split(" ").to_a
+    cruiser_place = ["A1", "A2", "A3"]
+    player_place_ship_on_board("Cruiser", 3, cruiser_place)
+    puts @board_player.render(true)
+    puts "Enter the squares for the Submarine with a space
+    between each cell and press enter (2 spaces):"
+    # submarine_place = gets.chomp.upcase.split(" ").to_a
+    submarine_place = ["B4", "C4"]
+    player_place_ship_on_board("Submarine", 2, submarine_place)
+  end
+
+  def player_place_ship_on_board(name, length, placement)
+    ship = Ship.new(name, length)
+    while !@board_player.valid_placement?(ship, placement)
+      puts "Those are invalid coordinates. Please try again:"
+      placement = gets.chomp.upcase.split(" ").to_a
+      if @board_player.valid_placement?(ship, placement)
+        @board_player.place(ship, placement)
+        break
+      end
+    end
+
+    if @board_player.valid_placement?(ship, placement)
+      @board_player.place(ship, placement)
+    end
+  end
+
+>>>>>>> Stashed changes
   def take_turn
     while @computer_board.render(true).include?('S') &&
     @player_board.render(true).include?('S')

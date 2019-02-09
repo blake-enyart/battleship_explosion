@@ -11,11 +11,18 @@ class SetupTest < Minitest::Test
   def setup
     @setup = Setup.new
   end
+
   def test_setup_exist
 
     assert_instance_of Setup, @setup
   end
 
+  def test_computer_takes_shot_at_board
+    
+
+
+    assert_equal
+  end
   def test_setup_correctly_creates_two_board_objects
 
     assert_instance_of Board, @setup.board_comp
