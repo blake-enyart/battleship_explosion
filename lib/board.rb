@@ -6,7 +6,7 @@ class Board
               :keys
 
   def initialize(dimensions:)
-    @keys = 
+    @keys =
     @cells = {}
     @keys.map { |cell| @cells[cell] = Cell.new(cell) }
   end
@@ -81,6 +81,7 @@ class Board
       @cells[cell].place_ship(ship)
     end
   end
+
 
   def render(show=false)
     board_layout = "  "
