@@ -37,8 +37,6 @@ class Setup
     render_board
   end
 
-<<<<<<< Updated upstream
-=======
   def computer_sets_up_ships
     cruiser = Ship.new("Cruiser", 3)
     submarine = Ship.new("Submarine", 2)
@@ -89,7 +87,6 @@ class Setup
     end
   end
 
->>>>>>> Stashed changes
   def take_turn
     while @computer_board.render(true).include?('S') &&
     @player_board.render(true).include?('S')
